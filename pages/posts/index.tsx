@@ -1,10 +1,10 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
-import Head from "next/head";
-import FeaturedPosts from "../components/home-page/featured-posts";
-import Hero from "../components/home-page/hero";
-import { IPostItem } from "../components/post/post-item";
-import { getFeaturedPosts } from "../lib/posts-utils";
-import styles from "../styles/Home.module.css";
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import AllPost from '../../components/post/all-posts';
+import { IPostItem } from '../../components/post/post-item';
+import { getAllPosts } from '../../lib/posts-utils';
+
+interface IAllPostPageProps {
+}
 
 const DUMMY_POST: IPostItem[] = [
   {
@@ -45,20 +45,15 @@ const DUMMY_POST: IPostItem[] = [
   },
 ];
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+
+const AllPostPage: NextPage<IAllPostPageProps & InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   return (
-    <>
-    <Head>
-      <title>HadesGod blogs</title>
-    </Head>
-      <Hero />
-      <FeaturedPosts posts={props.posts} />
-    </>
-  );
+      <AllPost posts={props.posts}/>
+  )
 };
 
 export const getStaticProps: GetStaticProps<{posts: IPostItem[]}> = async (context) => {
-  const featuredPosts = getFeaturedPosts()
+  const featuredPosts = getAllPosts()
   return {
     props: {
       posts: featuredPosts
@@ -67,4 +62,4 @@ export const getStaticProps: GetStaticProps<{posts: IPostItem[]}> = async (conte
   }
 }
 
-export default Home;
+export default AllPostPage;
